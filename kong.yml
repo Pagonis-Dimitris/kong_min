@@ -1,0 +1,15 @@
+_format_version: "1.1"
+
+services:
+- name: my-api
+  host: kong_min_api_1
+  port: 5000
+  routes:
+  - name: my-route
+    paths:
+    - /my-route
+
+# consumers:
+# - username: my-user
+#   keyauth_credentials:
+#   - key: my-key

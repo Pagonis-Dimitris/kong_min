@@ -71,6 +71,7 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
       KONG_PREFIX: ${KONG_PREFIX:-/var/run/kong}
+      # KONG_DECLARATIVE_CONFIG: /var/run/kong/kong.yml #to run in dblessmode
     networks:
       - kong-net
     ports:
@@ -95,6 +96,7 @@ services:
     volumes:
       - kong_prefix_vol:${KONG_PREFIX:-/var/run/kong}
       - kong_tmp_vol:/tmp
+      # - ./kong.yml:/var/run/kong/kong.yml #to run in dblessmode
     deploy:
       restart_policy:
         delay: 50s
