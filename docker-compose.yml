@@ -1,5 +1,12 @@
 version: "3.4"
 services:
+  api:
+    build:
+        context: ./api
+    restart: always
+    env_file: .env
+    networks:
+        - kong-net
   db:
     build:
       context: ./db      
@@ -28,24 +35,23 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-
-  kong-migrations-up:
-    image: kong:latest
-    command: kong migrations up && kong migrations finish
-    depends_on:
-      - db
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_DATABASE: ${KONG_PG_DATABASE}
-      KONG_PG_HOST: db
-      KONG_PG_USER: ${KONG_PG_USER}
-      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
-    networks:
-      - kong-net
-    restart: on-failure
-    deploy:
-      restart_policy:
-        condition: on-failure
+  # kong-migrations-up:
+  #   image: kong:latest
+  #   command: kong migrations up && kong migrations finish
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     KONG_DATABASE: postgres
+  #     KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+  #     KONG_PG_HOST: db
+  #     KONG_PG_USER: ${KONG_PG_USER}
+  #     KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
+  #   networks:
+  #     - kong-net
+  #   restart: on-failure
+  #   deploy:
+  #     restart_policy:
+  #       condition: on-failure
   kong:
     image: kong:latest
     user: "${KONG_USER}"
@@ -102,7 +108,6 @@ services:
     security_opt:
       - no-new-privileges
 volumes:
-
   dbData:
     labels:
       persistent: "true"

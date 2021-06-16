@@ -15,15 +15,15 @@ function create_kong_user_and_database() {
 EOSQL
 }
 
-if psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" -c 'SELECT datname FROM pg_catalog.pg_database' | grep 'database'; then
+if psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" -c 'SELECT datname FROM pg_catalog.pg_database' | grep 'mydb'; then
   echo "DB is already created"
 else
   create_kong_user_and_database
   psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
-    CREATE DATABASE realestate;
-    GRANT ALL PRIVILEGES ON DATABASE realestate TO postgres;
+    CREATE DATABASE mydb;
+    GRANT ALL PRIVILEGES ON DATABASE mydb TO postgres;
     CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
-    ALTER DATABASE realestate SET datestyle TO "ISO, DMY";
+    ALTER DATABASE mydb SET datestyle TO "ISO, DMY";
 EOSQL
   echo "DB is now created!"
 fi
