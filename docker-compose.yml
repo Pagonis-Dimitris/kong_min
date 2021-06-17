@@ -109,6 +109,18 @@ services:
           memory: ${KONG_MEMORY_LIMIT:-2g}
     security_opt:
       - no-new-privileges
+  konga:
+    image: pantsel/konga
+    ports:
+      - 1337:1337
+      - 1338:1338
+    links:
+      - kong:kong
+    networks:
+      - kong-net
+    container_name: konga
+    environment:
+      - NODE_ENV=development
 volumes:
   dbData:
     labels:

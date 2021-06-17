@@ -5,7 +5,7 @@ import jwt
 import sys
 from src import db, app
 
-TOKEN_SECRET = getenv('SECRET_TOKEN') or 'devsecret'
+TOKEN_SECRET = getenv('SECRET_TOKEN') or 'token_secret_dev'
 REFRESH_TOKEN_SECRET = getenv('SECRET_REFRESH_TOKEN') or 'devrefreshsecret'
 
 
@@ -17,11 +17,10 @@ def getTokenError(msg):
 
 
 class UserModel():
-    def __init__(self, userid, username, role, fleet):
+    def __init__(self, userid, username, role):
         self.userid = userid
         self.username = username
         self.role = role
-        self.fleet = fleet
 
 
 class AuthModel():
@@ -39,18 +38,17 @@ class LoginModel():
 class User(db.Model):
     __tablename__ = "users"
 
-    userid = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, nullable=False, primary_key=True)
     username = db.Column(db.String(200), nullable=False, primary_key=True)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(20), nullable=False)
-    fleet = db.Column(db.String(20))
 
     @classmethod
     def get_user_by_username(cls, username) -> "Vessel":
         return db.session.query(cls).filter(cls.username == username).first()
 
     def toUserModel(self) -> "UserModel":
-        return UserModel(self.userid, self.username, self.role, self.fleet)
+        return UserModel(self.id, self.username, self.role)
 
     def create_tokens(self, username):
         """
@@ -62,6 +60,7 @@ class User(db.Model):
             payload = {
                 'exp': datetime.utcnow() + timedelta(days=0, minutes=30),
                 'iat': datetime.utcnow(),
+                'iss': '{\"user\":1}',
                 'user': username
             }
 

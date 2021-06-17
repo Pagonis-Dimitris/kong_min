@@ -14,7 +14,7 @@ CORS(app)
 app.config["CACHE_TYPE"] = "SimpleCache"
 # app.config["CACHE_DIR"] = "/cache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@db/mydb"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:mypass@db/mydb"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 api = Api(app)
