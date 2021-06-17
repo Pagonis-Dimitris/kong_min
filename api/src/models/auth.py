@@ -5,7 +5,7 @@ import jwt
 import sys
 from src import db, app
 
-TOKEN_SECRET = getenv('SECRET_TOKEN') or 'token_secret_dev'
+TOKEN_SECRET = getenv('SECRET_TOKEN') or 'devsecret_token'
 REFRESH_TOKEN_SECRET = getenv('SECRET_REFRESH_TOKEN') or 'devrefreshsecret'
 
 
@@ -60,7 +60,7 @@ class User(db.Model):
             payload = {
                 'exp': datetime.utcnow() + timedelta(days=0, minutes=30),
                 'iat': datetime.utcnow(),
-                'iss': '{\"user\":1}',
+                'iss': '2PFX496Di8hN3ZeEJ46ecd2oLtV7BUgH',
                 'user': username
             }
 

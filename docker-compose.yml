@@ -10,6 +10,8 @@ services:
   db:
     build:
       context: ./db      
+      args:
+        - POSTGRES_MULTIPLE_DATABASES=mydb,kong
     ports:
       - "${DB_PORT1}:${DB_PORT2}"
     volumes:
